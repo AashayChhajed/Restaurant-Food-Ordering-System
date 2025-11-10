@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu & Cart</title>
+    <style>
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #e3f2e2;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #57a651;
+            color: white;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 10px 0;
+            font-size: 18px;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .navbar a:hover {
+            background-color: #44733d;
+        }
+
+        .content {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        .menu-section {
+            display: none; /* Hide all sections by default */
+        }
+
+        .food-gallery {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .food-item {
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            width: 290px;
+            background-color: rgba(255, 255, 255, 0.533);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            height: 340px;
+    
+        }
+
+        .food-item:hover {
+            transform: scale(1.05);
+        }
+
+        .food-item img {
+            width: 75%;
+            height: 70%;
+            border-radius: 8px;
+        }
+
+        .food-item button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .food-item button:hover {
+            background-color: #218838;
+        }
+
+        .cart-section {
+            display: none;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cart-table th,
+        .cart-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .cart-table th {
+            background-color: #f4f4f4;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #59dd74;
+            color: white;
+            border-radius: 50%;
+            padding: 15px;
+            cursor: pointer;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .cart-number {
+            font-size: 12px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: red;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+        }
+
+        .bill-summary {
+            margin-top: 30px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .bill-summary h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+        }
+
+        .bill-summary div {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+        }
+
+        .bill-summary .grand-total {
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>La Burgir</h1>
+        <a href="#" onclick="showCategory('menuPizza')"><h2>MENU</h2></a>
+        <a href="#" onclick="showCategory('menuPizza')">Pizza</a>
+        <a href="#" onclick="showCategory('menuBurger')">Burger</a>
+        <a href="#" onclick="showCategory('menuDrinks')">Drinks</a>
+        <a href="#" onclick="showCategory('menuDesserts')">Desserts</a>
+        <a href="#" onclick="showCategory('cart')">Cart</a>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+        <!-- Pizza Section -->
+        <div id="menuPizza" class="menu-section">
+            <h1>Pizza</h1>
+            <div class="food-gallery">
+                <div class="food-item">
+                    <img src="margherita-pizza.jpg" alt="Pizza">
+                    <p>Classic Margherita - ₹275</p>
+                    <button onclick="addToCart('Classic Margherita', 200)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="doublemargherita-pizza.jpeg" alt="Double Cheese Margherita">
+                    <p>Double Cheese Margherita - ₹345</p>
+                    <button onclick="addToCart('Double Cheese Margherita', 345)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="paneertikka-pizza.jpeg" alt="Paneer Tikka Pizza">
+                    <p>Paneer Tikka Pizza - ₹395</p>
+                    <button onclick="addToCart('Paneer Tikka Pizza', 395)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="hotandspicy-pizza.jpg" alt="Hot and Spicy Pizza">
+                    <p>Hot and Spicy Pizza - ₹395</p>
+                    <button onclick="addToCart('Hot and Spicy Pizza', 395)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="gardenfresh-pizza.webp" alt="Garden Fresh Pizza">
+                    <p>Garden Fresh Pizza - ₹395</p>
+                    <button onclick="addToCart('Garden Fresh Pizza', 395)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="italian-pizza.jpg" alt="Special Italian Delight Pizza">
+                    <p>Special Italian Delight Pizza - ₹450</p>
+                    <button onclick="addToCart('Special Italian Delight Pizza', 450)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Burger Section -->
+        <div id="menuBurger" class="menu-section">
+            <h1>Burger</h1>
+            <div class="food-gallery">
+                <div class="food-item">
+                    <img src="Cheese  Burger.jpg" alt="Cheese Burger">
+                    <p>Cheese Burger - ₹150</p>
+                    <button onclick="addToCart('Cheese Burger', 150)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Vegie Burger.jpg" alt="Veggie Burger">
+                    <p>Veggie Burger - ₹180</p>
+                    <button onclick="addToCart('Veggie Burger', 180)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Spicy Vegie Burger.jpg" alt="Spicy Veggie Burger">
+                    <p>Spicy Veggie Burger - ₹200</p>
+                    <button onclick="addToCart('Spicy Veggie Burger', 200)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Spicy Paneer burger.jpg" alt="Spicy Paneer Burger">
+                    <p>Spicy Paneer Burger - ₹260</p>
+                    <button onclick="addToCart('Spicy Paneer Burger', 260)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Mexican  Burger.jpg" alt="Mexican Burger">
+                    <p>Mexican Burger - ₹270</p>
+                    <button onclick="addToCart('Mexican Burger', 270)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Maharaja burger.jpg" alt="Maharaja Burger">
+                    <p>Maharaja Burger - ₹340</p>
+                    <button onclick="addToCart('Maharaja Burger', 340)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cold Drinks Section -->
+        <div id="menuDrinks" class="menu-section">
+            <h1>Drinks</h1>
+            <div class="food-gallery">
+                <div class="food-item">
+                    <img src="Coke.jpg" alt="Coke">
+                    <p>Coke - ₹50</p>
+                    <button onclick="addToCart('Coke', 50)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Sprite.jpg" alt="Sprite">
+                    <p>Sprite - ₹50</p>
+                    <button onclick="addToCart('Sprite', 50)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Fanta.jpg" alt="Fanta">
+                    <p>Fanta - ₹50</p>
+                    <button onclick="addToCart('Fanta', 50)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Ice Tea.jpg" alt="Ice Tea">
+                    <p>Ice Tea - ₹90</p>
+                    <button onclick="addToCart('Ice Tea', 90)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Mojito.jpg" alt="Mojito">
+                    <p>Mojito - ₹100</p>
+                    <button onclick="addToCart('Mojito', 100)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Water.jpg" alt="Water">
+                    <p>Water - ₹20</p>
+                    <button onclick="addToCart('Water', 20)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Desserts Section -->
+        <div id="menuDesserts" class="menu-section">
+            <h1>Desserts</h1>
+            <div class="food-gallery">
+                <div class="food-item">
+                    <img src="Choclate Brownie.jpg" alt="Chocolate Brownie">
+                    <p>Chocolate Brownie - ₹100</p>
+                    <button onclick="addToCart('Chocolate Brownie', 150)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Choclate lava cake.jpeg.jpg" alt="Choco Lava Cake">
+                    <p>Choco Lava Cake - ₹150</p>
+                    <button onclick="addToCart('Choco Lava Cake', 150)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Tiramisu.jpeg.jpg" alt="Tiramisu">
+                    <p>Tiramisu - ₹250</p>
+                    <button onclick="addToCart('Tiramisu', 250)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Chocolate Mousse.jpg" alt="Chocolate Mousse">
+                    <p>Chocolate Mousse - ₹150</p>
+                    <button onclick="addToCart('Chocolate Mousse', 150)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Rasmalai.jpeg.jpg" alt="Rasmalai">
+                    <p>Rasmalai - ₹100</p>
+                    <button onclick="addToCart('Rasmalai', 100)">Add to Cart</button>
+                </div>
+                <div class="food-item">
+                    <img src="Fruit Custard.jpeg.jpg" alt="Fruit Custard">
+                    <p>Fruit Custard - ₹150</p>
+                    <button onclick="addToCart('Fruit Custard', 100)">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart Section -->
+        <div id="cartSection" class="cart-section">
+            <h1>Cart</h1>
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price (₹)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cartItems">
+                    <tr>
+                        <td colspan="3">Your cart is empty.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="cart-total" id="cartTotal">Total: ₹0</div>
+            <button onclick="checkout()">Checkout</button>
+
+            <!-- Bill Summary -->
+            <div class="bill-summary" id="billSummary">
+                <h2>Bill Summary</h2>
+                <div><span>Item Total</span><span id="itemTotal">₹0</span></div>
+                <div><span>CGST (2.5%)</span><span id="cgst">₹0</span></div>
+                <div><span>SGST (2.5%)</span><span id="sgst">₹0</span></div>
+                <div class="grand-total"><span>Grand Total</span><span id="grandTotal">₹0</span></div>
+            </div>
+        </div>
+        <!-- ...existing code... -->
+        <form id="checkoutForm" style="display: none;">
+            <input type="hidden" name="orderData" id="orderData">
+            <button type="button" onclick="submitOrder()">Checkout</button>
+        </form>
+        <!-- ...existing code... -->
+    </div>
+
+    <!-- Cart Icon -->
+    <div class="cart-icon" onclick="showCategory('cart')">
+        🛒
+        <div class="cart-number" id="cartCount">0</div>
+    </div>
+
+    <div id="thankYouModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); padding: 20px; text-align: center; z-index: 1000;">
+        <h2>Thank You!</h2>
+        <p>Your order has been placed and will arrive shortly.</p>
+        <button onclick="closeThankYouModal()" style="background-color: #ff5a00; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">OK</button>
+    </div>
+    <div id="overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
+    <script>
+        let cart = [];
+        let totalItems = 0;
+
+        function showCategory(category) {
+            // Hide all menu sections
+            document.querySelectorAll('.menu-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Show the selected category
+            if (category !== 'cart') {
+                document.getElementById(category).style.display = 'block';
+            } else {
+                updateCart();
+            }
+            document.getElementById('cartSection').style.display = category === 'cart' ? 'block' : 'none';
+        }
+
+        function addToCart(itemName, itemPrice) {
+            const item = {
+                name: itemName,
+                price: itemPrice,
+                total: itemPrice
+            };
+
+            cart.push(item);
+            totalItems++;
+            updateCartIcon();
+
+            alert(`${itemName} added to cart.`);
+        }
+
+        function updateCartIcon() {
+            document.getElementById('cartCount').textContent = totalItems;
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const itemTotalElement = document.getElementById('itemTotal');
+            const cgstElement = document.getElementById('cgst');
+            const sgstElement = document.getElementById('sgst');
+            const grandTotalElement = document.getElementById('grandTotal');
+
+            cartItems.innerHTML = '';
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.total;
+                cartItems.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>₹${item.total}</td>
+                        <td><button onclick="removeFromCart(${index})">Remove</button></td>
+                    </tr>
+                `;
+            });
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `<tr><td colspan="3">Your cart is empty.</td></tr>`;
+            }
+
+            const cgst = (total * 0.025).toFixed(2);
+            const sgst = (total * 0.025).toFixed(2);
+            const grandTotal = (total + parseFloat(cgst) + parseFloat(sgst)).toFixed(2);
+
+            cartTotal.textContent = `Total: ₹${total}`;
+            itemTotalElement.textContent = `₹${total}`;
+            cgstElement.textContent = `₹${cgst}`;
+            sgstElement.textContent = `₹${sgst}`;
+            grandTotalElement.textContent = `₹${grandTotal}`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            totalItems--;
+            updateCartIcon();
+            updateCart();
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const orderDetails = {
+                items: cart
+            };
+
+            fetch('submit_order.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderDetails)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Order placed successfully!');
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+
+                // Clear the cart and show the thank-you modal
+                cart = [];
+                totalItems = 0;
+                updateCartIcon();
+                updateCart();
+
+                document.getElementById('thankYouModal').style.display = 'block';
+                document.getElementById('overlay').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to place the order. Please try again.');
+            });
+        }
+
+        
+
+        function closeThankYouModal() {
+            // Hide the modal and go back to the menu
+            document.getElementById('thankYouModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            showCategory('menuPizza'); // Default to Pizza section
+        }
+    </script>
+<!-- ...existing code... -->
+<script>
+    function submitOrder() {
+        if (cart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+
+        const orderDetails = {
+            items: cart
+        };
+
+        fetch('submit_order.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderDetails)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Order placed successfully!');
+            } else {
+                alert(`Error: ${data.message}`);
+            }
+
+            // Clear the cart and show the thank-you modal
+            cart = [];
+            totalItems = 0;
+            updateCartIcon();
+            updateCart();
+
+            document.getElementById('thankYouModal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to place the order. Please try again.');
+        });
+    }
+</script>
+<!-- ...existing code... -->
+</body>
+</html>
